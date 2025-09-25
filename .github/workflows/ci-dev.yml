@@ -11,9 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: dev
+    env:
+      TRACK_MY_CASE_URL: ${{ secrets.TRACK_MY_CASE_URL }}
+      ONE_LOGIN_EMAIL: ${{ secrets.ONE_LOGIN_EMAIL }}
+      ONE_LOGIN_PASSWORD: ${{ secrets.ONE_LOGIN_PASSWORD }}
+      ONE_LOGIN_2FA: ${{ secrets.ONE_LOGIN_2FA }}
     strategy:
       matrix:
-        task: [check, test]
+        task: [ check, test ]
 
     steps:
       - name: Checkout source code
