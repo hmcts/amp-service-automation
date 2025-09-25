@@ -9,6 +9,7 @@ import org.junit.platform.suite.api.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import static io.cucumber.core.options.Constants.FILTER_TAGS_PROPERTY_NAME;
 import static io.cucumber.core.options.Constants.GLUE_PROPERTY_NAME;
 import static io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
 
@@ -19,7 +20,10 @@ import static io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
     @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "uk.gov.hmcts.cp.bdd"),
     @ConfigurationParameter(
         key = PLUGIN_PROPERTY_NAME,
-        value = "pretty, html:build/reports/cucumber/cucumber-report.html")
+        value = "pretty, html:build/reports/cucumber/cucumber-report.html"),
+    @ConfigurationParameter(
+        key = FILTER_TAGS_PROPERTY_NAME,
+        value = "not @Ignore")
 })
 @CucumberContextConfiguration
 @SpringBootTest
