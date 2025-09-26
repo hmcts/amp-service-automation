@@ -37,3 +37,13 @@ one-login:
   email: ${ONE_LOGIN_EMAIL}
   password: ${ONE_LOGIN_PASSWORD}
   2fa: ${ONE_LOGIN_2FA}
+
+service:
+  case-mapper-service:
+    url: ${AMP_BACKEND_URL}
+    path: /urnmapper
+
+  court-schedule-client:
+    url: ${CP_BACKEND_URL}
+    path: /listing-query-api/query/api/rest/listing/hearings/allocated-and-unallocated
+    cjscppuid: ${CJSCPPUID}
