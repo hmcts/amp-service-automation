@@ -3,8 +3,10 @@ plugins {
   id 'java'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.7'
-  id 'org.springframework.boot' version '3.5.5'
-  id 'com.github.ben-manes.versions' version '0.52.0'
+  id 'org.springframework.boot' version '3.5.6'
+  id 'maven-publish'
+  id "org.cyclonedx.bom" version "2.3.1"
+  id 'com.github.ben-manes.versions' version '0.53.0'
   id 'org.sonarqube' version '6.3.1.5724'
 
   /*
@@ -16,6 +18,14 @@ plugins {
 
 group = 'uk.gov.hmcts.cp'
 version = '0.0.1'
+
+def githubActor = project.findProperty("github.actor") ?: System.getenv("GITHUB_ACTOR")
+def githubToken = project.findProperty("github.token") ?: System.getenv("GITHUB_TOKEN")
+def githubRepo = System.getenv("GITHUB_REPOSITORY")
+
+def azureADOArtifactRepository = 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1'
+def azureADOArtifactActor = System.getenv("AZURE_DEVOPS_ARTIFACT_USERNAME")
+def azureADOArtifactToken = System.getenv("AZURE_DEVOPS_ARTIFACT_TOKEN")
 
 java {
   sourceCompatibility = JavaVersion.VERSION_21
@@ -41,6 +51,11 @@ configurations {
   integrationTestImplementation.extendsFrom testImplementation
   integrationTestRuntimeOnly.extendsFrom runtimeOnly
   cucumberRuntime.extendsFrom testImplementation
+
+  // Ensure testRuntimeClasspath can be resolved for agent injection
+  testRuntimeClasspath {
+    canBeResolved = true
+  }
 }
 
 
@@ -70,8 +85,17 @@ tasks.register("integration", Test) {
   group = "Verification"
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
+  useJUnitPlatform()
   failFast = true
-}
+  testLogging {
+    events "passed", "skipped", "failed"
+    exceptionFormat = 'full'
+    showStandardStreams = true
+  }
+  reports {
+    junitXml.required.set(true)
+    html.required.set(true)
+  }}
 
 project.tasks['jacocoTestReport'].dependsOn test, integration
 
@@ -120,15 +144,43 @@ repositories {
   mavenLocal()
   mavenCentral()
   maven {
-    url = 'https://jitpack.io'
+    url = azureADOArtifactRepository
+  }
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      artifact(tasks.named('bootJar'))
+      artifact(tasks.named('jar'))
+    }
+  }
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/$githubRepo")
+      credentials {
+        username = githubActor
+        password = githubToken
+      }
+    }
+    maven {
+      name = "AzureArtifacts"
+      url = uri(azureADOArtifactRepository)
+      credentials {
+        username = azureADOArtifactActor
+        password = azureADOArtifactToken
+      }
+    }
   }
 }
 
 ext {
-  log4JVersion = "2.25.1"
+  apiCourtScheduleVersion = "0.4.8"
+  log4JVersion = "2.25.2"
   logbackVersion = "1.5.18"
-  lombokVersion = "1.18.40"
-  springBootVersion = "3.5.5"
+  lombokVersion = "1.18.42"
+  springBootVersion = "3.5.6"
   cucumber = "7.15.0"
   junitPlatform = "1.12.2"
   selenium="4.11.0"
@@ -145,6 +197,11 @@ tasks.withType(Checkstyle).configureEach {
 }
 
 dependencies {
+  implementation("uk.gov.hmcts.cp:api-cp-crime-schedulingandlisting-courtschedule:$apiCourtScheduleVersion") {
+    exclude group: "io.swagger", module: "swagger-annotations"
+  }
+  implementation("io.swagger.core.v3:swagger-annotations:2.2.37")
+
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-aop'
@@ -156,6 +213,7 @@ dependencies {
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
   implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
+  implementation group: 'org.apache.commons', name: 'commons-text', version: '1.14.0'
 
   implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.5.6'
 
