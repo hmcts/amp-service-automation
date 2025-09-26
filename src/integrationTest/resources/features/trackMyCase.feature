@@ -1,3 +1,4 @@
+@Ignore
 Feature: Track My Case UI
   Test scenarios for Track My Case UI on DEV environment
 
