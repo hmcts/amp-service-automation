@@ -16,6 +16,9 @@ jobs:
       ONE_LOGIN_EMAIL: ${{ secrets.ONE_LOGIN_EMAIL }}
       ONE_LOGIN_PASSWORD: ${{ secrets.ONE_LOGIN_PASSWORD }}
       ONE_LOGIN_2FA: ${{ secrets.ONE_LOGIN_2FA }}
+      AMP_BACKEND_URL: ${{ secrets.AMP_BACKEND_URL }}
+      CP_BACKEND_URL: ${{ secrets.CP_BACKEND_URL }}
+      CJSCPPUID: ${{ secrets.CJSCPPUID }}
     strategy:
       matrix:
         task: [ check, test ]
