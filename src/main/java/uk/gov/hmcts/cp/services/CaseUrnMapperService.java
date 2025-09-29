@@ -36,10 +36,11 @@ public class CaseUrnMapperService {
     private String caseMapperServicePath;
 
     public String getCaseId(final String caseUrn) {
+        final String caseIdUrl = getCaseIdUrl(caseUrn);
         try {
             ignoreCertificates();
             final ResponseEntity<CaseMapperResponse> responseEntity = restTemplate.exchange(
-                    getCaseIdUrl(caseUrn),
+                    caseIdUrl,
                     HttpMethod.GET,
                     getRequestEntity(),
                     CaseMapperResponse.class
@@ -52,6 +53,7 @@ public class CaseUrnMapperService {
             }
         } catch (Exception e) {
             LOG.atError().log("Error while getting case id from case urn: {}", caseUrn, e);
+            LOG.atError().log("Case urn: {}", caseIdUrl);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Case not found by urn: " + caseUrn);
     }

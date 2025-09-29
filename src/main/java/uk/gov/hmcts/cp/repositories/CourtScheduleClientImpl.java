@@ -65,10 +65,11 @@ public class CourtScheduleClientImpl implements CourtScheduleClient {
     }
 
     private List<Hearing> getHearings(final String caseId) {
+        final String hearingUrl = buildUrl(caseId);
         List<Hearing> hearingResult = Collections.emptyList();
         try {
             final HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(buildUrl(caseId)))
+                    .uri(new URI(hearingUrl))
                     .GET()
                     .header("Accept", "application/vnd.listing.search.hearings+json")
                     .header("CJSCPPUID", getCjscppuid())
@@ -89,6 +90,7 @@ public class CourtScheduleClientImpl implements CourtScheduleClient {
             }
         } catch (Exception e) {
             LOG.atError().log("Exception occurred while fetching hearing data: {}", e.getMessage(), e);
+            LOG.atError().log("Hearing URL: {}", hearingUrl, e);
         }
         return hearingResult;
     }
