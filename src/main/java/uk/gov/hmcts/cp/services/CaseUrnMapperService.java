@@ -61,8 +61,7 @@ public class CaseUrnMapperService {
     private String getCaseIdUrl(final String caseUrn) {
         return UriComponentsBuilder
                 .fromUriString(getCaseMapperServiceUrl())
-                .pathSegment(getCaseMapperServicePath())
-                .pathSegment(caseUrn)
+                .path(getCaseMapperServicePath())
                 .buildAndExpand(caseUrn)
                 .toUriString();
     }

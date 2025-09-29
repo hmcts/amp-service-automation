@@ -41,7 +41,7 @@ one-login:
 service:
   case-mapper-service:
     url: ${AMP_BACKEND_URL}
-    path: /urnmapper
+    path: /urnmapper/{case_urn}
 
   court-schedule-client:
     url: ${CP_BACKEND_URL}
