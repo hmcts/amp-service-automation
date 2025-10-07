@@ -78,6 +78,7 @@ tasks.withType(Test) {
 
 test {
   failFast = true
+  useJUnitPlatform()
 }
 
 tasks.register("integration", Test) {
@@ -219,6 +220,9 @@ dependencies {
 
   testImplementation(platform('org.junit:junit-bom:5.12.2'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  testImplementation 'org.junit.platform:junit-platform-suite'
+  testImplementation 'org.junit.jupiter:junit-jupiter'
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion, {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
