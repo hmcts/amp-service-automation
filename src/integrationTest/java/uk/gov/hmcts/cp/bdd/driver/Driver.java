@@ -33,7 +33,7 @@ public class Driver implements WebDriverInstance {
 
         switch (targetBrowser) {
             case "chrome":
-                webDriver = new ChromeDriver();
+                webDriver = createChromeBrowser();
                 break;
             case "remote-chrome":
                 webDriver = createRemoteDriver();
@@ -50,6 +50,31 @@ public class Driver implements WebDriverInstance {
         webDriver.getWindowHandle();
 
         return webDriver;
+    }
+
+    private static WebDriver createChromeBrowser() {
+        ChromeOptions options = new ChromeOptions();
+
+        boolean onCI = "true".equalsIgnoreCase(System.getenv("GITHUB_ACTIONS"));
+        if (onCI) {
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--window-size=1920,1080");
+        }
+
+        // Example: speed up / stabilize
+        options.addArguments("--disable-gpu");           // harmless on Linux/headless
+        options.addArguments("--disable-features=VizDisplayCompositor");
+
+        ChromeDriver driver = new ChromeDriver(options);
+
+        if (!onCI) {
+            // only maximize when not headless
+            driver.manage().window().maximize();
+        }
+
+        return driver;
     }
 
     private static WebDriver createRemoteDriver() {
