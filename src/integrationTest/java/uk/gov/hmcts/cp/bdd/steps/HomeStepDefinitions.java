@@ -1,11 +1,17 @@
 package uk.gov.hmcts.cp.bdd.steps;
 
 import io.cucumber.java.en.Given;
+import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.cp.bdd.pages.CommonPage;
 import uk.gov.hmcts.cp.bdd.pages.HomePage;
+import uk.gov.hmcts.cp.controllers.TrackMyCaseClient;
 
 public class HomeStepDefinitions extends HomePage {
-//    HomePage homePage = new HomePage();
+
+    @Autowired
+    private TrackMyCaseClient trackMyCaseClient;
+
+    //    HomePage homePage = new HomePage();
     CommonPage commonPage = new CommonPage();
 
     @Given("I navigate to DPS service")
@@ -13,13 +19,18 @@ public class HomeStepDefinitions extends HomePage {
         commonPage.loginVSIPService();
     }
 
-    @Given("I enter {string}")
-    public void i_enter(String uName) {
-        enterUserName(uName);
+    @Given("I enter email")
+    public void iEnterEmail() {
+        enterEmail(trackMyCaseClient.getOneLoginEmail());
     }
 
-    @Given("I enter the {string}")
-    public void i_enter_the(String password) {
-        enterPassword(password);
+    @Given("I enter password")
+    public void iEnterPassword() {
+        enterPassword(trackMyCaseClient.getOneLoginPassword());
+    }
+
+    @Given("I enter 2FA")
+    public void iEnter2Fa() {
+        enter2Fa(trackMyCaseClient.getNext2FA());
     }
 }

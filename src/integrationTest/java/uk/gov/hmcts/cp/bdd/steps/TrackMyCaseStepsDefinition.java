@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestClient;
 import uk.gov.hmcts.cp.controllers.TrackMyCaseClient;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,5 +42,18 @@ public class TrackMyCaseStepsDefinition extends BaseSteps {
 
         String oneLoginPassword = trackMyCaseClient.getOneLoginPassword();
         assertThat(oneLoginPassword).isNotBlank();
+    }
+
+    @When("Wait {string} seconds")
+    public void waitXSeconds(String seconds) {
+        try {
+            Thread.sleep(Duration.of(Integer.valueOf(seconds), ChronoUnit.SECONDS));
+        } catch (Exception e) {
+        }
+    }
+
+    @When("Stop")
+    public void stop() {
+        System.out.println("Test finished");
     }
 }

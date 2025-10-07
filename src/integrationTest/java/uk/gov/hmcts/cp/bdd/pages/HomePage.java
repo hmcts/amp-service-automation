@@ -2,12 +2,16 @@ package uk.gov.hmcts.cp.bdd.pages;
 
 public class HomePage extends CommonMethods {
 
-    //Enter userName in textbox
-    public void enterUserName(String user_Name) {
-        enterValueInTextField("xpath",user_Name,"//input[@id='username']");
+    public void enterEmail(String email) {
+        enterValueInTextField("xpath", email, "//input[@id='email']");
     }
-    //Enter password in password textbox
+
     public void enterPassword(String password) {
-        enterValueInTextField("xpath",password,"//input[@id='password']");
+        enterValueInTextField("xpath", password, "//input[@id='password']");
     }
+
+    public void enter2Fa(String code) {
+        enterValueInTextField("xpath", code, "//input[@id='code']");
+    }
+
 }

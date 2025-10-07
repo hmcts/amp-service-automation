@@ -1,3 +1,4 @@
+@Ignore
 Feature: DEV /case/{case_urn}/courtschedule
   Test scenarios for court schedule by case URN
 

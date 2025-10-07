@@ -32,8 +32,10 @@ public class CommonPage extends CommonMethods {
         click("xpath", "//button[contains(@data-test, 'search')]");
     }
 
-    public void clickOnContinueBtn() {
-        click("xpath", "//button[contains(@data-test, 'submit')]");
+    public void clickOnContinueBtn(String buttonText) {
+        click("xpath",
+              "//*[self::a or self::button][contains(@class, 'govuk-button') and normalize-space()='" + buttonText + "']"
+        );
     }
 
     public void clickOnCancelBtn() {
