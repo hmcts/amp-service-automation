@@ -8,8 +8,6 @@ import uk.gov.hmcts.cp.controllers.TrackMyCaseClient;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,12 +19,12 @@ public class TrackMyCaseStepsDefinition extends BaseSteps {
     @Given("Track My Case UI is running")
     public void trackMyCaseUiIsRunning() {
         RestClient client = RestClient.create();
-        Map body = client.get()
-            .uri(trackMyCaseClient.getTrackMyCaseUrl() + TRACK_MY_CASE_HEALTH)
+        String body = client.get()
+            .uri(trackMyCaseClient.getTrackMyCaseUrl() + TRACK_MY_CASE_HEALTHZ)
             .retrieve()
-            .body(HashMap.class);
+            .body(String.class);
 
-        assertThat(body.get("status")).isEqualTo("UP");
+        assertThat(body).isEqualTo("OK");
     }
 
     @When("User clicks button {string}")
