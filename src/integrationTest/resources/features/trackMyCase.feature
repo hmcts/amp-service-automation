@@ -8,7 +8,7 @@ Feature: Track My Case UI
 
   Scenario: Access DPS homepage
     Given I navigate to DPS service
-    And Im on "Track My Case - Home" page
+    And Im on "Track my case - Home" page
     And Wait "3" seconds
     And I click on "Start now" button
     And Wait "3" seconds

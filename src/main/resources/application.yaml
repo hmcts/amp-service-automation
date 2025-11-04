@@ -47,3 +47,8 @@ service:
     url: ${CP_BACKEND_URL}
     path: /listing-query-api/query/api/rest/listing/hearings/allocated-and-unallocated
     cjscppuid: ${CJSCPPUID}
+
+  apim-court-schedule-client:
+    url: ${APIM_CP_BACKEND_URL}
+    path: /amp/case/{case_urn}/courtschedule
+    apim-subscription-key: ${APIM_SUBSCRIPTION_KEY}
