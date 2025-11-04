@@ -17,6 +17,8 @@ import uk.gov.hmcts.cp.openapi.model.CourtScheduleResponse;
 
 import java.net.URI;
 
+import static uk.gov.hmcts.cp.utils.Utils.ignoreCertificates;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -39,6 +41,7 @@ public class ApimCourtScheduleClient {
     public CourtScheduleResponse getCourtScheduleByCaseId(final String caseUrn) {
         try {
             final String apimCourtScheduleUrl = buildUrl(caseUrn);
+            ignoreCertificates();
             final ResponseEntity<CourtScheduleResponse> responseEntity = restTemplate.exchange(
                 apimCourtScheduleUrl,
                 HttpMethod.GET,
@@ -57,9 +60,9 @@ public class ApimCourtScheduleClient {
 
     private String buildUrl(final String caseUrn) {
         return UriComponentsBuilder
-            .fromUri(URI.create(getApimCourtScheduleClientUrl()))
+            .fromUriString(getApimCourtScheduleClientUrl())
             .path(getApimCourtScheduleClientPath())
-            .queryParam("case_urn", caseUrn)
+            .buildAndExpand(caseUrn)
             .toUriString();
     }
 
