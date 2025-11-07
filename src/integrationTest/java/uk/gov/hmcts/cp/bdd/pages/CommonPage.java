@@ -4,12 +4,12 @@ public class CommonPage extends CommonMethods {
 
 //    By continueBtnOnAllPages = By.id("submit");
 
-    public void loginVSIPService() {
+    public void openTrackMyCaseUi() {
         navigateToPage("https://track-my-case-dev.apps.live.cloud-platform.service.justice.gov.uk");
     }
 
     public void deleteBrowserCookies() {
-        driver.manage().deleteAllCookies();
+        ACTIVE_WEB_DRIVER.manage().deleteAllCookies();
     }
 
     public void clickOnSubmitBtn() {

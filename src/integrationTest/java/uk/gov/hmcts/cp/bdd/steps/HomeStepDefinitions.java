@@ -14,9 +14,9 @@ public class HomeStepDefinitions extends HomePage {
     //    HomePage homePage = new HomePage();
     CommonPage commonPage = new CommonPage();
 
-    @Given("I navigate to DPS service")
-    public void i_navigate_to_dps_service() {
-        commonPage.loginVSIPService();
+    @Given("I navigate to Track My Case UI")
+    public void navigateToTrackMyCaseUi() {
+        commonPage.openTrackMyCaseUi();
     }
 
     @Given("I enter email")

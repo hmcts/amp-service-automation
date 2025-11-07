@@ -9,22 +9,24 @@ import org.openqa.selenium.support.ui.Wait;
 import uk.gov.hmcts.cp.bdd.steps.WebDriverInstance;
 
 import java.time.Duration;
+import java.util.Set;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 public class CommonMethods implements WebDriverInstance {
 
-    public Wait<WebDriver> wait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(20));
+    public Wait<WebDriver> wait = new FluentWait<>(ACTIVE_WEB_DRIVER).withTimeout(Duration.ofSeconds(20));
 
     private WebElement element = null;
 
     public void navigateToPage(String baseUrl) {
-        driver.get(baseUrl);
+        ACTIVE_WEB_DRIVER.get(baseUrl);
     }
 
     public void isPageTitleDisplayed(String pageTitle) {
-        String currentTitle = driver.getTitle();
+        String currentTitle = ACTIVE_WEB_DRIVER.getTitle();
         assertEquals(currentTitle, pageTitle);
     }
 
@@ -58,12 +60,12 @@ public class CommonMethods implements WebDriverInstance {
 
     public void enterValueInTextField(String accessType, String value, String accessName) {
         wait.until(presenceOfElementLocated(getElementByType(accessType, accessName)));
-        driver.findElement(getElementByType(accessType, accessName)).sendKeys(value);
+        ACTIVE_WEB_DRIVER.findElement(getElementByType(accessType, accessName)).sendKeys(value);
     }
 
     public void clickOnButton(String accessType, String accessName) {
         wait.until(ExpectedConditions.elementToBeClickable(getElementByType(accessType, accessName)));
-        driver.findElement(getElementByType(accessType, accessName)).click();
+        ACTIVE_WEB_DRIVER.findElement(getElementByType(accessType, accessName)).click();
     }
 
     public void click(String accessType, String accessName) {
@@ -72,11 +74,11 @@ public class CommonMethods implements WebDriverInstance {
     }
 
     public void verifyHeading(String text) {
-        driver.findElement(By.cssSelector("h1")).getText().equals(text);
+        ACTIVE_WEB_DRIVER.findElement(By.cssSelector("h1")).getText().equals(text);
     }
 
     public void isElementVisible(String accessType, String value, String accessName) {
-        driver.findElement(getElementByType(accessType, accessName)).isDisplayed();
+        ACTIVE_WEB_DRIVER.findElement(getElementByType(accessType, accessName)).isDisplayed();
     }
 
     public void selectRadioButton(String accessType, String accessName) {
@@ -84,9 +86,20 @@ public class CommonMethods implements WebDriverInstance {
             accessType,
             accessName
         )));
-        if (!radioButton.isSelected()){
+        if (!radioButton.isSelected()) {
             radioButton.click();
         }
     }
 
+    public void moveToNewTab() {
+        Set<String> windowHandles = ACTIVE_WEB_DRIVER.getWindowHandles();
+        if (windowHandles.size() > 2) {
+            throw new IllegalArgumentException(format("Too many tabs %s", windowHandles.size()));
+        }
+        String currentTab = ACTIVE_WEB_DRIVER.getWindowHandle();
+        for (String browserTab : windowHandles)
+            if (!browserTab.equals(currentTab)) {
+                ACTIVE_WEB_DRIVER.switchTo().window(browserTab);
+            }
+    }
 }
