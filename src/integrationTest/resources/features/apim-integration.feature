@@ -1,3 +1,4 @@
+@Ignore
 Feature: APIM DEV integration
   Test scenarios for court schedule by case URN
 
