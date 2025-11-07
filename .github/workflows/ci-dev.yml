@@ -19,6 +19,8 @@ jobs:
       AMP_BACKEND_URL: ${{ secrets.AMP_BACKEND_URL }}
       CP_BACKEND_URL: ${{ secrets.CP_BACKEND_URL }}
       CJSCPPUID: ${{ secrets.CJSCPPUID }}
+      APIM_CP_BACKEND_URL: ${{ secrets.APIM_CP_BACKEND_URL }}
+      APIM_SUBSCRIPTION_KEY: ${{ secrets.APIM_SUBSCRIPTION_KEY }}
     strategy:
       matrix:
         task: [ check, test ]
