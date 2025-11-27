@@ -30,14 +30,6 @@ azure:
   application-insights:
     instrumentation-key: ${rpe.AppInsightsInstrumentationKey:00000000-0000-0000-0000-000000000000}
 
-track-my-case:
-  url: ${TRACK_MY_CASE_URL}
-
-one-login:
-  email: ${ONE_LOGIN_EMAIL}
-  password: ${ONE_LOGIN_PASSWORD}
-  2fa: ${ONE_LOGIN_2FA}
-
 service:
   case-mapper-service:
     url: ${AMP_BACKEND_URL}
