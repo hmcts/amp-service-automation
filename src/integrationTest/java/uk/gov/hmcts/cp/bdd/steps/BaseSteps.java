@@ -17,6 +17,8 @@ public class BaseSteps {
     public static final String COURTSCHEDULING_API = "/case";
     public static final String COURTSCHEDULING = "/courtschedule";
 
+    public static final String TRACK_MY_CASE_HEALTHZ = "/healthz";
+
     private static final String BODY = "body";
 
     private final HashMap<String, Object> localData = new HashMap<>();

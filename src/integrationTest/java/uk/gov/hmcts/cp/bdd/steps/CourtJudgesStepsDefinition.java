@@ -12,29 +12,27 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CourtHousesTestSteps extends BaseSteps {
+public class CourtJudgesStepsDefinition extends BaseSteps {
 
-    @Given("courtHouses System is running")
+    @Given("courtJudges System is running")
     public void systemIsRunning() {
         cleatLocalData();
     }
 
-    @When("We make a request to courtHouses Swagger Hub by id {string}")
+    @When("We make a request to courtJudges Swagger Hub by id {string}")
     public void weMakeARequestToWSwaggerHub(String id) {
         RestClient client = RestClient.create();
         setBody(client.get()
-                    .uri(COURTHOUSES_BASE_API_URL + COURTHOUSES_API + "/id")
+                    .uri(COURTJUDGES_BASE_API_URL + COURTJUDGES_API + "/id")
                     .retrieve()
                     .body(HashMap.class));
     }
 
-    @Then("We receive a response from Swagger Hub for courtHouses")
+    @Then("We receive a response from Swagger Hub for courtJudges")
     public void weReceiveAResponseFromSwaggerHub() throws IOException {
         HashMap<String, Object> body = getBody();
-
-        File courtHouseFile = ResourceUtils.getFile("classpath:data/courtHouse.json");
-        HashMap courtHouseFileAsMap = objectMapper.readValue(courtHouseFile, HashMap.class);
-        assertThat(body).containsKey("courtHouse");
-        assertThat(body).isEqualTo(courtHouseFileAsMap);
+        File judgesFile = ResourceUtils.getFile("classpath:data/courtJudges.json");
+        HashMap judgesAsMap = objectMapper.readValue(judgesFile, HashMap.class);
+        assertThat(body).isEqualTo(judgesAsMap);
     }
 }

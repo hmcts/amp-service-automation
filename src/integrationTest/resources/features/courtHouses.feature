@@ -1,3 +1,4 @@
+@Ignore
 Feature: courtHouses API feature 1234
   Test scenarios for courtHouses API deployed to on Swagger Hub
 

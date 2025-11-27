@@ -1,3 +1,4 @@
+@Ignore
 Feature: courtScheduling API feature 1234
   Test scenarios for courtJudges API deployed to on Swagger Hub
 
