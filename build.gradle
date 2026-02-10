@@ -3,7 +3,7 @@ plugins {
   id 'java'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.7'
-  id 'org.springframework.boot' version '3.5.10'
+  id 'org.springframework.boot' version '4.0.2'
   id 'com.github.ben-manes.versions' version '0.53.0'
   id 'org.sonarqube' version '7.2.2.6593'
 
@@ -128,7 +128,7 @@ ext {
   log4JVersion = "2.25.3"
   logbackVersion = "1.5.29"
   lombokVersion = "1.18.42"
-  springBootVersion = "3.5.10"
+  springBootVersion = "4.0.2"
   cucumber = "7.34.2"
   junitPlatform = "6.0.2"
 }
