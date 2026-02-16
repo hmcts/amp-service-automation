@@ -130,7 +130,7 @@ ext {
   lombokVersion = "1.18.42"
   springBootVersion = "4.0.2"
   cucumber = "7.34.2"
-  junitPlatform = "6.0.2"
+  junitPlatform = "6.0.3"
 }
 
 ext['snakeyaml.version'] = '2.0'
@@ -157,7 +157,7 @@ dependencies {
 
   implementation group: 'io.rest-assured', name: 'rest-assured', version: '6.0.0'
 
-  testImplementation(platform('org.junit:junit-bom:6.0.2'))
+  testImplementation(platform('org.junit:junit-bom:6.0.3'))
   testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion, {
     exclude group: 'junit', module: 'junit'
